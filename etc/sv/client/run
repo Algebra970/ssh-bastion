@@ -1,0 +1,6 @@
+#!/bin/sh
+
+echo running command:
+echo ${SSH_CLIENT_COMMAND}
+echo
+${SSH_CLIENT_COMMAND}

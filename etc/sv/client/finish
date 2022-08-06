@@ -1,0 +1,3 @@
+#!/bin/sh
+
+sleep ${SSH_CLIENT_RESTART_DELAY}

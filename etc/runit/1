@@ -1,0 +1,39 @@
+#!/bin/sh
+
+toBool() {
+    echo $(echo $1 | awk '{print (tolower($0)~"(^yes$)|(^true$)|(^[-+]?[0-9]*[1-9][0-9]*$)")?"true":"false"}')
+}
+
+SERVER_MODE=$(toBool ${SSH_SERVER})
+CLIENT_MODE=$(toBool ${SSH_CLIENT})
+
+if [[ "${SERVER_MODE}" == "true" ]]; then
+    echo Configuring Server
+    cd /input/server
+
+    for file in $(ls -1); do
+        if [[ ${file} != "authorized_keys" ]]; then
+            install -D -o root -g root -m 600 ${file} /etc/ssh/${file}
+        elif [[ ${file} == "authorized_keys" ]]; then
+            install -D -o root -g root -m 600 ${file} /root/.ssh/${file}
+        fi
+    done
+
+    ssh-keygen -A
+
+    rm /etc/sv/server/down
+else
+    echo Server disabled
+fi
+
+if [[ "${CLIENT_MODE}" == "true" ]]; then
+    echo Configuring Client
+    cd input/client
+    for file in $(ls -1); do
+	    install -D -o root -g root -m 600 ${file} /root/.ssh/${file}
+    done
+
+    rm /etc/sv/client/down
+else
+    echo Client disabled
+fi

@@ -1,0 +1,6 @@
+#!/bin/sh
+
+echo running command:
+echo /usr/sbin/sshd -D -e
+echo
+exec /usr/sbin/sshd -D -e
