@@ -14,5 +14,6 @@ ENV SSH_CLIENT_RESTART_DELAY=5
 
 ADD ./etc /etc
 ADD ./bin /bin
+ADD LICENSE /
 
 ENTRYPOINT [ "dumb-init", "dumb-runit"]
