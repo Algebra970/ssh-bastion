@@ -3,4 +3,4 @@
 echo running command:
 echo ${SSH_CLIENT_COMMAND}
 echo
-${SSH_CLIENT_COMMAND}
+su -s /bin/sh ${SSH_CLIENT_USER} -c "${SSH_CLIENT_COMMAND}"

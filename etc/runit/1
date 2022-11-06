@@ -11,15 +11,19 @@ CLIENT_MODE=$(toBool ${SSH_CLIENT})
 
 if [[ "${SERVER_MODE}" == "true" ]]; then
     echo Configuring Server
-    cd /input/server
 
-    for file in $(ls -1); do
-        if [[ ${file} != "authorized_keys" ]]; then
-            install -D -o root -g root -m 600 ${file} /etc/ssh/${file}
-        elif [[ ${file} == "authorized_keys" ]]; then
-            install -D -o root -g root -m 600 ${file} /root/.ssh/${file}
-        fi
-    done
+    adduser -D ${SSH_SERVER_USER}
+    passwd -u ${SSH_SERVER_USER}
+
+    install -o root -g root -m 400 -t /etc/ssh /input/server/*
+    install -o root -g root -m 400 -Dt /etc/ssh/sshd_config.d /input/server/sshd_config.d/*
+
+    echo Include '/etc/ssh/sshd_config.d/*.conf' >> /etc/ssh/sshd_config
+    echo DenyUsers ${SSH_CLIENT_USER} root >> /etc/ssh/sshd_config.d/client_deny.conf
+
+    if [[ -f /input/server/authorized_keys ]]; then
+        install -o ${SSH_SERVER_USER} -g ${SSH_SERVER_USER} -m 400 -D -t /home/${SSH_SERVER_USER}/.ssh/ /input/server/authorized_keys
+    fi
 
     ssh-keygen -A
 
@@ -30,10 +34,11 @@ fi
 
 if [[ "${CLIENT_MODE}" == "true" ]]; then
     echo Configuring Client
-    cd input/client
-    for file in $(ls -1); do
-        install -D -o root -g root -m 600 ${file} /root/.ssh/${file}
-    done
+
+    adduser -D ${SSH_CLIENT_USER}
+    passwd -u ${SSH_CLIENT_USER}
+
+    install -o ${SSH_CLIENT_USER} -g ${SSH_CLIENT_USER} -m 400 -Dt /home/${SSH_CLIENT_USER}/.ssh /input/client/*
 
     rm /etc/sv/client/down
 else
