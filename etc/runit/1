@@ -32,7 +32,7 @@ if [[ "${CLIENT_MODE}" == "true" ]]; then
     echo Configuring Client
     cd input/client
     for file in $(ls -1); do
-	    install -D -o root -g root -m 600 ${file} /root/.ssh/${file}
+        install -D -o root -g root -m 600 ${file} /root/.ssh/${file}
     done
 
     rm /etc/sv/client/down
