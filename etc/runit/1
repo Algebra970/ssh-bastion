@@ -38,7 +38,11 @@ if [[ "${CLIENT_MODE}" == "true" ]]; then
     adduser -D ${SSH_CLIENT_USER}
     passwd -u ${SSH_CLIENT_USER}
 
-    install -o ${SSH_CLIENT_USER} -g ${SSH_CLIENT_USER} -m 400 -Dt /home/${SSH_CLIENT_USER}/.ssh /input/client/*
+    install -o root -g root -m 444 -Dt /etc/ssh /input/client/*
+    install -o root -g root -m 444 -Dt /etc/ssh/ssh_config.d /input/client/ssh_config.d/*
+    install -o ${SSH_CLIENT_USER} -g ${SSH_CLIENT_USER} -m 400 -Dt /home/${SSH_CLIENT_USER}/.ssh /input/client/user/*
+
+    echo Include '/etc/ssh/ssh_config.d/*.conf' >> /etc/ssh/ssh_config
 
     rm /etc/sv/client/down
 else
