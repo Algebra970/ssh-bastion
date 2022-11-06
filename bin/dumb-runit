@@ -1,16 +1,18 @@
 #!/bin/sh
 
-echo "- fake-runit: enter stage: /etc/runit/1"
-etc/runit/1
-echo "- fake-runit: leave stage: /etc/runit/1"
+export COMMAND_LINE="$@"
+
+echo "- dumb-runit: enter stage: /etc/runit/1"
+/etc/runit/1
+echo "- dumb-runit: leave stage: /etc/runit/1"
 
 LOOP=true
 while [[ ${LOOP} == "true" ]]; do
-    echo "- fake-runit: enter stage: /etc/runit/2"
-    etc/runit/2 && LOOP=false
-    echo "- fake-runit: leave stage: /etc/runit/2"
+    echo "- dumb-runit: enter stage: /etc/runit/2"
+    /etc/runit/2 && LOOP=false
+    echo "- dumb-runit: leave stage: /etc/runit/2"
 done
 
-echo "- fake-runit: enter stage: /etc/runit/3"
-etc/runit/3
-echo "- fake-runit: leave stage: /etc/runit/3"
+echo "- dumb-runit: enter stage: /etc/runit/3"
+/etc/runit/3
+echo "- dumb-runit: leave stage: /etc/runit/3"
