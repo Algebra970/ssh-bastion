@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export COMMAND_LINE="$@"
+export COMMAND_LINE="$*"
 
 echo "- dumb-runit: enter stage: /etc/runit/1"
 /etc/runit/1
