@@ -6,8 +6,7 @@ An SSH server/client docker image conifgured to only allow TCP tunnels.
 
 ## TODOs
 
-- Block root login on server
-- Change default tunnel client user from root
+- Use default sshd_config with overrides in sshd_config.d
 - Add usage examples
 
 ## Credits
