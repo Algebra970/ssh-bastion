@@ -1,6 +1,6 @@
 FROM alpine:3.16
 
-RUN apk add --no-cache openssh runit dumb-init
+RUN apk add --no-cache openssh runit dumb-init libcap
 RUN sed -i 's/^\(root:.*:\)[^:]\+$/\1\/sbin\/nologin/' /etc/passwd
 RUN mkdir -p /input/server /input/client
 

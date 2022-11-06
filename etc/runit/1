@@ -12,6 +12,9 @@ CLIENT_MODE=$(toBool ${SSH_CLIENT})
 if [[ "${SERVER_MODE}" == "true" ]]; then
     echo Configuring Server
 
+    # Allow binding to ports<1024
+    setcap CAP_NET_BIND_SERVICE=+eip /usr/sbin/sshd
+
     adduser -D ${SSH_SERVER_USER}
     passwd -u ${SSH_SERVER_USER}
 
@@ -34,6 +37,9 @@ fi
 
 if [[ "${CLIENT_MODE}" == "true" ]]; then
     echo Configuring Client
+
+    # Allow binding to ports<1024
+    setcap CAP_NET_BIND_SERVICE=+eip /usr/bin/ssh
 
     adduser -D ${SSH_CLIENT_USER}
     passwd -u ${SSH_CLIENT_USER}
