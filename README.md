@@ -1,5 +1,10 @@
 # ssh-bastion
 
+## Depricated
+
+This was not maintained or used for its original purpose for over 3 years now...
+and this poped up https://sshhole.com/
+
 ## Intro
 
 An SSH server/client docker image conifgured to only allow TCP tunnels.
